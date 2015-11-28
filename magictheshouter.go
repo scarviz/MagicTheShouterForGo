@@ -128,34 +128,74 @@ func magic(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(resjson))
 }
 
+var magicStr = [...]string{
+	StrFireBall,
+	StrDragon,
+	StrBegiragon,
+	StrMegante,
+	StrIceStorm,
+	StrRaidein,
+	StrThunderStorm,
+	StrScrewWave,
+	StrBigWave,
+	StrGigadoriru,
+	StrKurushio,
+	StrTigerBazooka,
+	StrParopunte,
+	StrSJK,
+	StrFinalDragoon,
+	StrRocknRoll,
+	StrRainField,
+}
+
 /*
 Magic番号を取得する
 */
 func GetMagicNo(data string) (magicNo int) {
-	reFB, _ := regexp.Compile(StrFireBall)
-	reDR, _ := regexp.Compile(StrDragon)
-	reBG, _ := regexp.Compile(StrBegiragon)
-	reMG, _ := regexp.Compile(StrMegante)
-	reIS, _ := regexp.Compile(StrIceStorm)
+	magicNo = Nothing
+	for _, val := range magicStr {
+		re, _ := regexp.Compile(val)
+		mat := re.FindAllStringSubmatch(data, -1)
+		if 0 < len(mat) {
+			switch val {
+			case StrFireBall:
+				magicNo = FireBall
+			case StrDragon:
+				magicNo = Dragon
+			case StrBegiragon:
+				magicNo = Begiragon
+			case StrMegante:
+				magicNo = Megante
+			case StrIceStorm:
+				magicNo = IceStorm
+			case StrRaidein:
+				magicNo = Raidein
+			case StrThunderStorm:
+				magicNo = ThunderStorm
+			case StrScrewWave:
+				magicNo = ScrewWave
+			case StrBigWave:
+				magicNo = BigWave
+			case StrGigadoriru:
+				magicNo = Gigadoriru
+			case StrKurushio:
+				magicNo = Kurushio
+			case StrTigerBazooka:
+				magicNo = TigerBazooka
+			case StrParopunte:
+				magicNo = Paropunte
+			case StrSJK:
+				magicNo = SJK
+			case StrFinalDragoon:
+				magicNo = FinalDragoon
+			case StrRocknRoll:
+				magicNo = RocknRoll
+			case StrRainField:
+				magicNo = RainField
+			}
 
-	fb := reFB.FindAllStringSubmatch(data, -1)
-	dr := reDR.FindAllStringSubmatch(data, -1)
-	bg := reBG.FindAllStringSubmatch(data, -1)
-	mg := reMG.FindAllStringSubmatch(data, -1)
-	is := reIS.FindAllStringSubmatch(data, -1)
-
-	if 0 < len(fb) {
-		magicNo = FireBall
-	} else if 0 < len(dr) {
-		magicNo = Dragon
-	} else if 0 < len(bg) {
-		magicNo = Begiragon
-	} else if 0 < len(mg) {
-		magicNo = Megante
-	} else if 0 < len(is) {
-		magicNo = IceStorm
-	} else {
-		magicNo = Nothing
+			break
+		}
 	}
 
 	return
